@@ -7,4 +7,6 @@ These are only really tested on IDA 7.0 and are unlikely to work for earlier ver
 ## Script Folders
 
 * `util` - Contains generally useful things that may not be applicable to FFXIV but are generally helpful
+* `xiv` - FFXIV specific IDA scripts
+
 * More to come...
