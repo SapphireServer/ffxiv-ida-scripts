@@ -107,7 +107,7 @@ class ArgsXrefOutput(PluginForm):
     def Show(self, name):
         return PluginForm.Show(self, "Decompiled xrefs for: " + str(name))
 
-class plugin_t(idaapi.plugin_t):
+class decomp_xref_t(idaapi.plugin_t):
     flags = idaapi.PLUGIN_UNL
 
     wanted_name = "Decompile Xrefs"
@@ -126,4 +126,4 @@ class plugin_t(idaapi.plugin_t):
         pass
  
 def PLUGIN_ENTRY():
-    return plugin_t()
+    return decomp_xref_t()
