@@ -742,7 +742,7 @@ def do_pattern(pattern, suffix = ""):
         origName = GetFunctionName(ea)
 
         # don't rename any funcs that are already named
-        if origName[0:4] != "sub_":
+        if origName[0:4] == "sub_":
             sheetName = exd_map[sheetIdx]
 
             if suffix == None:
@@ -750,7 +750,7 @@ def do_pattern(pattern, suffix = ""):
 
             fnName = "Client::ExdData::get%s%s" % (exd_map[sheetIdx], suffix)
 
-            print("found unnamed exd func @ %x -> mapped to %s (%i)" % (ea, sheetName, sheetIdx))
+            print("found exd func @ %x -> mapped to %s (%i)" % (ea, sheetName, sheetIdx))
 
             MakeName(ea, fnName)
             MakeComm(ins, "Sheet: %s (%i)" % (sheetName, sheetIdx))
