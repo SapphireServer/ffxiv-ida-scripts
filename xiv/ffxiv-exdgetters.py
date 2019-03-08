@@ -14,7 +14,9 @@ exd_func_patterns = {
     "48 83 EC 28 48 8B 05 ? ? ? ? BA ? ? ? ? 48 8B 88 ? ? ? ? E8 ? ? ? ? 48 85 C0 74 14 48 8B 10 48 8B C8 FF 52 08 84 C0 75 07 B0 01 48 83 C4 28 C3 32 C0 48 83 C4 28 C3": None,
     "48 83 EC 28 85 C9 74 20 48 8B 05 ? ? ? ? 44 8B C1 BA ? ? ? ? 48 8B 88 ? ? ? ? E8 ? ? ? ? 48 85 C0 75 07 33 C0 48 83 C4 28 C3 48 8B 00 48 83 C4 28 C3": None,
     "48 83 EC 28 48 8B 05 ? ? ? ? 44 8B C1 BA ? ? ? ? 48 8B 88 ? ? ? ? E8 ? ? ? ? 48 85 C0 74 17 48 8B 08 48 85 C9 74 0F 8B 01 25 ? ? ? ? 48 03 C1 48 83 C4 28 C3 33 C0 48 83 C4 28 C3": None,
-    "48 8B 05 ? ? ? ? BA ? ? ? ? 48 8B 88 ? ? ? ? E9 ? ? ? ?": "_1"
+
+    # unsure if this is totally accurate but it looks to be the case
+    "48 8B 05 ? ? ? ? BA ? ? ? ? 48 8B 88 ? ? ? ? E9 ? ? ? ?": "::rowCount"
 }
 
 # todo: figure out how/where these exd getters are used
@@ -740,8 +742,12 @@ def do_pattern(pattern, suffix = ""):
         origName = GetFunctionName(ea)
 
         # don't rename any funcs that are already named
-        if origName[0:4] == "sub_":
+        if origName[0:4] != "sub_":
             sheetName = exd_map[sheetIdx]
+
+            if suffix == None:
+                suffix = ""
+
             fnName = "Client::ExdData::get%s%s" % (exd_map[sheetIdx], suffix)
 
             print("found unnamed exd func @ %x -> mapped to %s (%i)" % (ea, sheetName, sheetIdx))
