@@ -1,12 +1,16 @@
 import idaapi
+import idautils
+import idc
 from idaapi import PluginForm
-from PyQt5 import QtCore, QtGui
+
+# Note: PyQt is fucked in >= Python 3.8 with IDA. Use 3.7.
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 done_funcs = {}
 data = []
 
 def get_args(xref, needle):
-    cf = GetFunctionName(xref.frm)
+    cf = idc.get_func_name(xref.frm)
 
     decomp = None
 
@@ -30,10 +34,10 @@ def get_args(xref, needle):
 
 def run(ea):
     func = idaapi.get_func(ea)
-    needle = GetFunctionName(ea)
+    needle = idc.get_func_name(ea)
     
     # get all xrefs
-    for xref in XrefsTo(func.startEA):
+    for xref in idautils.XrefsTo(func.startEA):
         get_args(xref, needle)
 
     ui = ArgsXrefOutput()
@@ -120,7 +124,7 @@ class decomp_xref_t(idaapi.plugin_t):
         return idaapi.PLUGIN_OK
  
     def run(self, arg):
-        run(ScreenEA())
+        run(idc.get_screen_ea())
  
     def term(self):
         pass
